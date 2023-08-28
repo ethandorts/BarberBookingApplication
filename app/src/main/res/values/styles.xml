@@ -1,0 +1,11 @@
+<resources>
+    <style name="BoldItalicText">
+        <item name="android:textStyle">bold|italic</item>
+    </style>
+    <style name="EditTextWithHintPadding">
+        <item name="android:paddingLeft">8dp</item> <!-- Adjust the padding as needed -->
+        <item name="android:paddingTop">8dp</item> <!-- Adjust the padding as needed -->
+        <item name="android:paddingRight">8dp</item> <!-- Adjust the padding as needed -->
+        <item name="android:paddingBottom">8dp</item> <!-- Adjust the padding as needed -->
+    </style>
+</resources>
