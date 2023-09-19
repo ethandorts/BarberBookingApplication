@@ -29,9 +29,10 @@ public class Login extends AppCompatActivity {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            Intent intent = new Intent(Login.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            // Remove this code to prevent automatic navigation to MainActivity
+            // Intent intent = new Intent(Login.this, MainActivity.class);
+            // startActivity(intent);
+            // finish();
         }
     }
 
@@ -75,7 +76,7 @@ public class Login extends AppCompatActivity {
                                     Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(Login.this, MainActivity.class);
                                     startActivity(intent);
-                                    finish();
+                                    // Do not call finish() here
                                 } else {
                                     Toast.makeText(Login.this, "Login Failed", Toast.LENGTH_SHORT).show();
                                 }
@@ -83,13 +84,14 @@ public class Login extends AppCompatActivity {
                         });
             }
         });
+
         SignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Login.this, Register.class);
                 startActivity(intent);
-                finish();
             }
         });
     }
 }
+
