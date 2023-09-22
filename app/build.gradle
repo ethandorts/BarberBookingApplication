@@ -37,6 +37,7 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
     implementation 'com.makeramen:roundedimageview:2.3.0'
     implementation 'com.google.firebase:firebase-auth:22.1.1'
+    implementation 'com.applandeo:material-calendar-view:1.7.0'
     implementation(platform("com.google.firebase:firebase-bom:32.2.3"))
     implementation("com.google.firebase:firebase-firestore")
     testImplementation 'junit:junit:4.13.2'

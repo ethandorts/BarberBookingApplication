@@ -13,10 +13,14 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Login extends AppCompatActivity {
     EditText Email, Password;
@@ -73,10 +77,54 @@ public class Login extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(Login.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(Login.this, MainActivity.class);
-                                    startActivity(intent);
-                                    // Do not call finish() here
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    String userId = user.getUid();
+
+                                    // Determine user type by checking Firestore document
+                                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                    db.collection("customers").document(userId)
+                                            .get()
+                                            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                @Override
+                                                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                    if (documentSnapshot.exists() && documentSnapshot.getString("userType").equals("Customer")) {
+                                                        // User is a customer
+                                                        Intent intent = new Intent(Login.this, CustomerMainActivity.class);
+                                                        startActivity(intent);
+                                                    } else {
+                                                        // User is not a customer, check barber collection
+                                                        db.collection("barbers").document(userId)
+                                                                .get()
+                                                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                                    @Override
+                                                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                                                        if (documentSnapshot.exists() && documentSnapshot.getString("userType").equals("Barber")) {
+                                                                            // User is a barber
+                                                                            Intent intent = new Intent(Login.this, BarberMainActivity.class);
+                                                                            startActivity(intent);
+                                                                        } else {
+                                                                            // User is neither a customer nor a barber
+                                                                            Toast.makeText(Login.this, "Invalid user type", Toast.LENGTH_SHORT).show();
+                                                                        }
+                                                                    }
+                                                                })
+                                                                .addOnFailureListener(new OnFailureListener() {
+                                                                    @Override
+                                                                    public void onFailure(@NonNull Exception e) {
+                                                                        // Handle failure
+                                                                        Toast.makeText(Login.this, "Error checking user type", Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                });
+                                                    }
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    // Handle failure
+                                                    Toast.makeText(Login.this, "Error checking user type", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
                                 } else {
                                     Toast.makeText(Login.this, "Login Failed", Toast.LENGTH_SHORT).show();
                                 }

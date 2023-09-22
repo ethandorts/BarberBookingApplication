@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
@@ -13,31 +14,31 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BarberBookingApplication"
         tools:targetApi="31">
-
-        <!-- The Login activity is your main launcher activity -->
+        <activity
+            android:name=".BarberMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CustomerMainActivity"
+            android:exported="false" /> <!-- The Login activity is your main launcher activity -->
         <activity
             android:name=".Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- The Register and MainActivity activities -->
+        </activity> <!-- The Register and MainActivity activities -->
         <activity
             android:name=".Register"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false" />
-
-        <!-- The SplashActivity with a theme for splash screen -->
+            android:exported="false" /> <!-- The SplashActivity with a theme for splash screen -->
         <activity
             android:name=".SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.Design.NoActionBar">
-        </activity>
+            android:theme="@style/Theme.Design.NoActionBar" />
     </application>
 
 </manifest>

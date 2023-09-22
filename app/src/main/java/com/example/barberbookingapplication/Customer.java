@@ -9,8 +9,10 @@ public class Customer {
     private String phoneNumber;
     private String DOB;
 
-    public Customer() {
+    private String userType;
 
+    public Customer() {
+        this.userType = "Customer";
     }
 
     public Customer(String firstName, String lastName, String email, String phoneNumber, String DOB) {
@@ -59,5 +61,9 @@ public class Customer {
 
     public void setDateOfBirth(String DOB) {
         this.DOB = DOB;
+    }
+
+    public String getUserType() {
+        return userType;
     }
 }

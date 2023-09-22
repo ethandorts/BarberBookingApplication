@@ -96,10 +96,10 @@ public class Register extends AppCompatActivity {
                     .document(currentUser.getUid())
                     .set(customer)
                     .addOnSuccessListener(aVoid -> {
-
+                        Toast.makeText(Register.this, "Account Successfully Created", Toast.LENGTH_SHORT).show();
                     })
                     .addOnFailureListener(e -> {
-
+                        Toast.makeText(Register.this, "Failed to Create Account", Toast.LENGTH_SHORT).show();
                     });
         }
     }
